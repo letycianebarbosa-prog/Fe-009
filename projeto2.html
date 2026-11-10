@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Livraria Lumina</title>
+  <link rel="stylesheet" href="projeto2.css">
+</head>
+
+<body>
+
+  <header class="topo">
+    <span class="marca">LUMINA LIVROS</span>
+  </header>
+
+  <section class="hero">
+    <h1>Histórias que transformam vidas</h1>
+    <p>Conheça nossa seleção de clássicos e receba o catálogo de lançamentos.</p>
+
+    <!-- BUG 1 -->
+    <button id="btn-catalogo" class="btn-hero" onclick="baixarCatalogo()">Baixar catálogo</button>
+  </section>
+
+  <section class="secao">
+    <h2>Clube do Livro Mensal</h2>
+
+    <!-- BUG 3 -->
+    <div id="card-clube" class="card">
+      <h3>Assinatura Lumina</h3>
+      <p class="descricao">Receba 1 livro surpresa + brindes exclusivos todo mês</p>
+      <div class="preco">R$ 59,90 / mês</div>
+      <p style="font-size: 0.82rem; color: #64748b;">(Passe o cursor para ver o destaque)</p>
+    </div>
+  </section>
+
+  <section class="secao">
+    <h2>Cupom Especial de Boas-Vindas</h2>
+
+    <div class="box-cupom">
+      <label style="display:block; font-weight:700; margin-bottom:8px;" for="valor-livro">Preço do Livro (R$):</label>
+
+      <input type="number" id="valor-livro" value="100"
+        style="padding:8px 12px; border:1px solid #cbd5e1; border-radius:6px; width:140px; text-align:center; font-weight:700; margin-bottom:14px;"><br>
+
+      <!-- BUG 4 -->
+      <button id="btn-cupom" class="btn-acao">Aplicar 15% de Desconto</button>
+
+      <div id="resultado-cupom" class="resultado"></div>
+    </div>
+  </section>
+
+  <section class="secao">
+    <h2>Espaço do Leitor</h2>
+
+    <div class="form">
+
+      <!-- BUG 2 -->
+      <label for="leitor">Seu Nome</label>
+      <input type="text" id="leitor" placeholder="Digite seu nome e tecle Enter">
+
+      <!-- BUG 5 -->
+      <label for="resenha">Escreva uma mini-resenha do seu livro favorito</label>
+      <textarea id="resenha" placeholder="Conte o que achou da obra (máximo 150 caracteres)"></textarea>
+
+      <div class="contador" id="contador-resenha">0 / 150</div>
+
+    </div>
+  </section>
+
+  <footer class="rodape">
+    <p>© 2026 Livraria Lumina — O portal dos apaixonados por leitura.</p>
+  </footer>
+
+  <script src="projeto2.js"></script>
+
+</body>
+</html>

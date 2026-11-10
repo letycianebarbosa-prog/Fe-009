@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Aurora</title>
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #f8fafc;
+    color: #0f172a;
+    line-height: 1.6;
+  }
+
+  .topo {
+    background: #0f172a;
+    color: #fff;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .topo .marca {
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #fbbf24;
+    font-size: 1.05rem;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 50%, #ec4899 100%);
+    color: #fff;
+    padding: 70px 32px;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 2.4rem;
+    margin-bottom: 12px;
+    letter-spacing: -.5px;
+  }
+
+  .hero p {
+    max-width: 520px;
+    margin: 0 auto 28px;
+    opacity: .93;
+    font-size: 1.02rem;
+  }
+
+  .btn-hero {
+    background: #fbbf24;
+    color: #1e1b4b;
+    padding: 14px 36px;
+    border-radius: 30px;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+
+  .btn-hero:hover { background: #f59e0b; }
+
+  .secao {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 56px 32px;
+  }
+
+  .secao h2 {
+    text-align: center;
+    font-size: 1.6rem;
+    color: #1e1b4b;
+    margin-bottom: 32px;
+    font-weight: 800;
+  }
+
+  .card {
+    max-width: 340px;
+    margin: 0 auto;
+    background: #fff;
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 28px 24px;
+    text-align: center;
+    transition: background .3s, border-color .3s;
+  }
+
+  .card h3 {
+    color: #1e1b4b;
+    font-size: 1.15rem;
+    margin-bottom: 6px;
+  }
+
+  .card .descricao {
+    color: #64748b;
+    font-size: .88rem;
+    margin-bottom: 16px;
+  }
+
+  .card .preco {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #7c3aed;
+    margin-bottom: 18px;
+  }
+
+  .btn-calcular {
+    background: #7c3aed;
+    color: #fff;
+    padding: 11px 22px;
+    border-radius: 8px;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    font-size: .92rem;
+  }
+
+  .btn-calcular:hover { background: #6d28d9; }
+
+  .resultado {
+    text-align: center;
+    margin-top: 22px;
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: #16a34a;
+    min-height: 28px;
+  }
+
+  .form {
+    max-width: 500px;
+    margin: 0 auto;
+    background: #fff;
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 28px;
+  }
+
+  .form label {
+    display: block;
+    font-weight: 700;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    font-size: .9rem;
+    color: #334155;
+  }
+
+  .form label:first-child { margin-top: 0; }
+
+  .form input, .form textarea {
+    width: 100%;
+    padding: 11px 13px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: .92rem;
+    color: #0f172a;
+  }
+
+  .form textarea {
+    min-height: 110px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  .form .contador {
+    text-align: right;
+    font-size: .78rem;
+    color: #64748b;
+    margin-top: 6px;
+    font-family: monospace;
+  }
+
+  .rodape {
+    background: #0f172a;
+    color: #cbd5e1;
+    padding: 28px 32px;
+    text-align: center;
+    font-size: .82rem;
+  }
+</style>
+</head>
+
+<body>
+
+<header class="topo">
+  <span class="marca">AURORA</span>
+</header>
+
+<section class="hero">
+  <h1>Design que transforma negócios</h1>
+  <p>Estúdio de front-end premiado. Solicite seu orçamento agora.</p>
+
+  <button
+    id="btn-orcamento"
+    class="btn-hero"
+    onclick="solicitarOrcamento()">
+    Solicitar orçamento
+  </button>
+</section>
+
+<section class="secao">
+  <h2>Plano essencial</h2>
+
+  <div id="card-preco" class="card">
+    <h3>Essencial</h3>
+    <p class="descricao">Para quem está começando</p>
+    <div class="preco">R$ 1.500</div>
+
+    <button id="btn-calcular" class="btn-calcular">
+      Calcular desconto
+    </button>
+  </div>
+
+  <div id="resultado-preco" class="resultado"></div>
+</section>
+
+<section class="secao">
+  <h2>Fale conosco</h2>
+
+  <div class="form">
+    <label for="nome">Seu nome</label>
+    <input
+      type="text"
+      id="nome"
+      placeholder="Digite seu nome e tecle Enter">
+
+    <label for="mensagem">Mensagem</label>
+    <textarea
+      id="mensagem"
+      maxlength="200"
+      placeholder="Escreva sua mensagem (máximo 200 caracteres)">
+    </textarea>
+
+    <div class="contador" id="contador">0 / 200</div>
+
+    <label for="preco">Preço do plano</label>
+    <input type="number" id="preco" value="1500">
+  </div>
+</section>
+
+<footer class="rodape">
+  <p>© 2026 Studio Aurora — Todos os direitos reservados.</p>
+</footer>
+
+<script>
+
+// BUG 1 - BOTÃO DE ORÇAMENTO
+function solicitarOrcamento() {
+  alert("Obrigado pelo interesse! Entraremos em contato em breve.");
+}
+
+
+// BUG 2 - PERSONALIZAR SAUDAÇÃO
+function personalizarSaudacao() {
+  let campo = document.getElementById("nome");
+  let nome = campo.value.trim();
+
+  if (nome) {
+    alert("Olá, " + nome + "! Seja bem-vindo(a).");
+  }
+}
+
+document.getElementById("nome").addEventListener(
+  "change",
+  personalizarSaudacao
+);
+
+// Permite confirmar o nome pressionando Enter.
+document.getElementById("nome").addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    personalizarSaudacao();
+  }
+});
+
+
+// BUG 3 - EFEITO DO CARD AO PASSAR O MOUSE
+document.getElementById("card-preco").addEventListener(
+  "mouseover",
+  entrarNoCard
+);
+
+document.getElementById("card-preco").addEventListener(
+  "mouseout",
+  sairDoCard
+);
+
+function entrarNoCard() {
+  this.style.background = "#fef3c7";
+  this.style.borderColor = "#d97706";
+}
+
+function sairDoCard() {
+  this.style.background = "#ffffff";
+  this.style.borderColor = "#e2e8f0";
+}
+
+
+// BUG 4 - CÁLCULO DE DESCONTO
+function calcularDesconto(preco) {
+  const taxa = 0.1;
+  let desconto = preco * taxa;
+  let precoFinal = preco - desconto;
+
+  return precoFinal;
+}
+
+function calcularEExibir() {
+  let preco = parseFloat(document.getElementById("preco").value);
+
+  if (isNaN(preco) || preco < 0) {
+    document.getElementById("resultado-preco").textContent =
+      "Digite um preço válido.";
+    return;
+  }
+
+  let resultado = calcularDesconto(preco);
+
+  document.getElementById("resultado-preco").textContent =
+    "Com desconto: R$ " + resultado.toFixed(2);
+}
+
+document.getElementById("btn-calcular").addEventListener(
+  "click",
+  calcularEExibir
+);
+
+
+// BUG 5 - CONTADOR DE CARACTERES
+function contarCaracteres(texto) {
+  let total = 0;
+
+  for (let i = 0; i < texto.length; i++) {
+    total = total + 1;
+  }
+
+  return total;
+}
+
+function atualizarContador() {
+  let texto = document.getElementById("mensagem").value;
+  let total = contarCaracteres(texto);
+  let campo = document.getElementById("contador");
+
+  campo.textContent = total + " / 200";
+
+  console.log(
+    "Contador: " + total +
+    " caracteres (esperado: " + texto.length + ")"
+  );
+}
+
+document.getElementById("mensagem").addEventListener(
+  "input",
+  atualizarContador
+);
+
+</script>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Aurora</title>
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #f8fafc;
+    color: #0f172a;
+    line-height: 1.6;
+  }
+
+  .topo {
+    background: #0f172a;
+    color: #fff;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .topo .marca {
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #fbbf24;
+    font-size: 1.05rem;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 50%, #ec4899 100%);
+    color: #fff;
+    padding: 70px 32px;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 2.4rem;
+    margin-bottom: 12px;
+    letter-spacing: -.5px;
+  }
+
+  .hero p {
+    max-width: 520px;
+    margin: 0 auto 28px;
+    opacity: .93;
+    font-size: 1.02rem;
+  }
+
+  .btn-hero {
+    background: #fbbf24;
+    color: #1e1b4b;
+    padding: 14px 36px;
+    border-radius: 30px;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+
+  .btn-hero:hover { background: #f59e0b; }
+
+  .secao {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 56px 32px;
+  }
+
+  .secao h2 {
+    text-align: center;
+    font-size: 1.6rem;
+    color: #1e1b4b;
+    margin-bottom: 32px;
+    font-weight: 800;
+  }
+
+  .card {
+    max-width: 340px;
+    margin: 0 auto;
+    background: #fff;
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 28px 24px;
+    text-align: center;
+    transition: background .3s, border-color .3s;
+  }
+
+  .card h3 {
+    color: #1e1b4b;
+    font-size: 1.15rem;
+    margin-bottom: 6px;
+  }
+
+  .card .descricao {
+    color: #64748b;
+    font-size: .88rem;
+    margin-bottom: 16px;
+  }
+
+  .card .preco {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #7c3aed;
+    margin-bottom: 18px;
+  }
+
+  .btn-calcular {
+    background: #7c3aed;
+    color: #fff;
+    padding: 11px 22px;
+    border-radius: 8px;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    font-size: .92rem;
+  }
+
+  .btn-calcular:hover { background: #6d28d9; }
+
+  .resultado {
+    text-align: center;
+    margin-top: 22px;
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: #16a34a;
+    min-height: 28px;
+  }
+
+  .form {
+    max-width: 500px;
+    margin: 0 auto;
+    background: #fff;
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 28px;
+  }
+
+  .form label {
+    display: block;
+    font-weight: 700;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    font-size: .9rem;
+    color: #334155;
+  }
+
+  .form label:first-child { margin-top: 0; }
+
+  .form input, .form textarea {
+    width: 100%;
+    padding: 11px 13px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: .92rem;
+    color: #0f172a;
+  }
+
+  .form textarea {
+    min-height: 110px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  .form .contador {
+    text-align: right;
+    font-size: .78rem;
+    color: #64748b;
+    margin-top: 6px;
+    font-family: monospace;
+  }
+
+  .rodape {
+    background: #0f172a;
+    color: #cbd5e1;
+    padding: 28px 32px;
+    text-align: center;
+    font-size: .82rem;
+  }
+</style>
+</head>
+
+<body>
+
+<header class="topo">
+  <span class="marca">AURORA</span>
+</header>
+
+<section class="hero">
+  <h1>Design que transforma negócios</h1>
+  <p>Estúdio de front-end premiado. Solicite seu orçamento agora.</p>
+
+  <button
+    id="btn-orcamento"
+    class="btn-hero"
+    onclick="solicitarOrcamento()">
+    Solicitar orçamento
+  </button>
+</section>
+
+<section class="secao">
+  <h2>Plano essencial</h2>
+
+  <div id="card-preco" class="card">
+    <h3>Essencial</h3>
+    <p class="descricao">Para quem está começando</p>
+    <div class="preco">R$ 1.500</div>
+
+    <button id="btn-calcular" class="btn-calcular">
+      Calcular desconto
+    </button>
+  </div>
+
+  <div id="resultado-preco" class="resultado"></div>
+</section>
+
+<section class="secao">
+  <h2>Fale conosco</h2>
+
+  <div class="form">
+    <label for="nome">Seu nome</label>
+    <input
+      type="text"
+      id="nome"
+      placeholder="Digite seu nome e tecle Enter">
+
+    <label for="mensagem">Mensagem</label>
+    <textarea
+      id="mensagem"
+      maxlength="200"
+      placeholder="Escreva sua mensagem (máximo 200 caracteres)">
+    </textarea>
+
+    <div class="contador" id="contador">0 / 200</div>
+
+    <label for="preco">Preço do plano</label>
+    <input type="number" id="preco" value="1500">
+  </div>
+</section>
+
+<footer class="rodape">
+  <p>© 2026 Studio Aurora — Todos os direitos reservados.</p>
+</footer>
+
+<script>
+
+// BUG 1 - BOTÃO DE ORÇAMENTO
+function solicitarOrcamento() {
+  alert("Obrigado pelo interesse! Entraremos em contato em breve.");
+}
+
+
+// BUG 2 - PERSONALIZAR SAUDAÇÃO
+function personalizarSaudacao() {
+  let campo = document.getElementById("nome");
+  let nome = campo.value.trim();
+
+  if (nome) {
+    alert("Olá, " + nome + "! Seja bem-vindo(a).");
+  }
+}
+
+document.getElementById("nome").addEventListener(
+  "change",
+  personalizarSaudacao
+);
+
+// Permite confirmar o nome pressionando Enter.
+document.getElementById("nome").addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    personalizarSaudacao();
+  }
+});
+
+
+// BUG 3 - EFEITO DO CARD AO PASSAR O MOUSE
+document.getElementById("card-preco").addEventListener(
+  "mouseover",
+  entrarNoCard
+);
+
+document.getElementById("card-preco").addEventListener(
+  "mouseout",
+  sairDoCard
+);
+
+function entrarNoCard() {
+  this.style.background = "#fef3c7";
+  this.style.borderColor = "#d97706";
+}
+
+function sairDoCard() {
+  this.style.background = "#ffffff";
+  this.style.borderColor = "#e2e8f0";
+}
+
+
+// BUG 4 - CÁLCULO DE DESCONTO
+function calcularDesconto(preco) {
+  const taxa = 0.1;
+  let desconto = preco * taxa;
+  let precoFinal = preco - desconto;
+
+  return precoFinal;
+}
+
+function calcularEExibir() {
+  let preco = parseFloat(document.getElementById("preco").value);
+
+  if (isNaN(preco) || preco < 0) {
+    document.getElementById("resultado-preco").textContent =
+      "Digite um preço válido.";
+    return;
+  }
+
+  let resultado = calcularDesconto(preco);
+
+  document.getElementById("resultado-preco").textContent =
+    "Com desconto: R$ " + resultado.toFixed(2);
+}
+
+document.getElementById("btn-calcular").addEventListener(
+  "click",
+  calcularEExibir
+);
+
+
+// BUG 5 - CONTADOR DE CARACTERES
+function contarCaracteres(texto) {
+  let total = 0;
+
+  for (let i = 0; i < texto.length; i++) {
+    total = total + 1;
+  }
+
+  return total;
+}
+
+function atualizarContador() {
+  let texto = document.getElementById("mensagem").value;
+  let total = contarCaracteres(texto);
+  let campo = document.getElementById("contador");
+
+  campo.textContent = total + " / 200";
+
+  console.log(
+    "Contador: " + total +
+    " caracteres (esperado: " + texto.length + ")"
+  );
+}
+
+document.getElementById("mensagem").addEventListener(
+  "input",
+  atualizarContador
+);
+
+</script>
+
+</body>
+</html>
